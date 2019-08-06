@@ -1,0 +1,314 @@
+body{
+    overflow: hidden;
+}
+.page-box>.header{
+    grid-area: header;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #093d9f;
+    box-shadow: #687ca0 0 5px 5px;
+    z-index: 5;
+}
+.page-box>.content{
+    grid-area: content;
+    border-right: #093d9f 2px solid;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+.page-box>.feedback{
+    grid-area: feedback;
+    position: relative;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+.page-box>.footer{
+    grid-area: footer;
+    background-color: #093d9f;
+    border-top: #093d9f 2px solid;
+}
+.page-box{
+    display: grid;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    grid-template-areas: 
+      "header header"
+      "content feedback"
+      "footer footer";
+    grid-template-rows: 30px calc(100vh - 80px) 50px;
+    grid-template-columns: 3fr 2fr;
+}
+/*SCROLLBAR*/
+::-webkit-scrollbar {
+    width: 5px;
+    }
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #093d9f;
+}    
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px #687ca0; 
+}
+/*MAIN_MENU*/
+.header>.menu{
+    display: flex;
+    height: 30px;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 30px;
+}
+.header>.menu>a{
+    color: aliceblue;
+    text-decoration: none;
+    padding: 3px 10px;
+}
+.header>.menu>a:first-child{
+    margin-right: auto;
+}
+.header>.menu>a:hover,
+.article>.title>.current-rating>a:hover{
+    text-shadow: aquamarine 1px 1px 3px;
+}
+/*ARTICLE_VIEW*/
+.article>.title{
+    position: sticky;
+    top: 0;
+    background-color: aliceblue;
+    box-shadow: #687ca0 0 5px 5px;
+}
+.article>.title>.current-rating{
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: flex-end;
+    right: 0;
+    white-space: nowrap;
+    border-bottom: #093d9f 2px solid;
+}
+.article>.title>.current-rating>h2{
+    font-size: .8rem;
+    margin: 0 auto 0 10px;
+    font-weight: 600;
+}
+.article>.title>.current-rating>h2>span{
+    font-size: 1.2rem;
+    color: #007acc;
+}
+.article>.title>.current-rating>a{
+    padding: 9px;
+    font-size: .9rem;
+    text-decoration: none;
+    align-self: stretch;
+    background-color: #093d9f;
+    color: aliceblue;
+}
+.article>h1{
+    width: 100%;
+    padding: 10px;
+    border-bottom: #000 1px solid;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 2rem;
+}
+.article>p{
+    text-indent: 1.5em;
+    text-align: justify;
+    margin: 10px;
+}
+.article>.article-data{
+    display: flex;
+    justify-content: space-between;
+    background-color: #687ca0;
+    padding: 10px 30px;
+}
+.article>.article-data>h3{
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 500;
+    color: aliceblue;
+}
+/*FEEDBACK_VIEW*/
+.feedback>h1{
+    position: sticky;
+    top: 0;
+    background-color: aliceblue;
+    width: 100%;
+    text-align: center;
+    font-size: 1.3rem;
+    box-sizing: border-box;
+    padding: 6px 10px;
+    border-bottom: #093d9f 2px solid;
+    box-shadow: #687ca0 0px 5px 5px;
+    z-index: 1;
+}
+.feedback>.feedback-box{
+    position: absolute;
+    top: 34px;
+    margin: 10px;
+}
+/*ADD_REVIEW_FORM*/
+.feedback>.add-review{
+    grid-area: add-review;
+    position: sticky;
+    display: none;
+    flex-direction: column;
+    top: 34px;
+    right: 0;
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: #424242 1px solid;
+    border-radius: 20px;
+    box-shadow: #093d9f 0 3px 5px;
+    background-color: #687ca0;
+    z-index: 1;
+}
+.add-review>.close-form{
+    margin: 10px 10px 0 auto;
+}
+.add-review>.close-form>img{
+    width: 40px;
+    height: 40px;
+}
+.add-review>form{
+    display: flex;
+    flex-direction: column;
+    padding: 5px 10px;
+}
+.add-review>form>div{
+    display: flex;
+    margin: 5px 0;
+    justify-content: space-between;
+    width: 100%;
+}
+.add-review>form>div.review-message{
+    flex-direction: column;
+}
+.add-review>form>div>label{
+    width: 20%;
+    min-width: 130px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    margin-right: auto;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 7px 5px;
+    text-shadow: #fff -1px 1px 2px;
+}
+.add-review>form>div>input[type="text"],
+.add-review>form>div>textarea{
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+}
+.add-review>form>div>input[type="text"]{
+    width: 70%;
+    height: 35px;
+}
+.add-review>form>div>textarea{
+    width: 100%;
+    height: 150px;
+}
+.add-review>form>div.review-img>label{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px;
+}
+.add-review>form>div.review-img>label>img{
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+.add-review>form>div.review-img>label>input[type="file"]{
+    display: none;
+}
+/*STARS_RATING*/
+.article>.title>.current-rating>.rate-stars,
+.add-review>form>.rating>.rate-stars{
+    background: url("../storage/images/stars.png") repeat-x 0 0;
+    width: 150px;
+    height: 30px;
+}
+.add-review>form>.rating>.rate-stars>input[type="radio"]{
+    position: absolute;
+    opacity: 0;
+}
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-5:checked ~ span{
+  width: 100%;
+}
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-4:checked ~ span{
+  width: 80%;
+}
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-3:checked ~ span{
+  width: 60%;
+}
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-2:checked ~ span{
+  width: 40%;
+}
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-1:checked ~ span{
+  width: 20%;
+}
+.add-review>form>.rating>.rate-stars>label{
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 0!important;
+    padding: 0!important;
+    text-indent: -999em;
+    float: left;
+    position: relative;
+    z-index: 1;
+    background: transparent!important;
+    cursor: pointer;
+}
+.add-review>form>.rating>.rate-stars>label.star-5:hover ~ span{
+  width: 100% !important;
+}
+.add-review>form>.rating>.rate-stars>label.star-4:hover ~ span{
+  width: 80% !important;
+}
+.add-review>form>.rating>.rate-stars>label.star-3:hover ~ span{
+  width: 60% !important;
+}
+.add-review>form>.rating>.rate-stars>label.star-2:hover ~ span{
+  width: 40% !important;
+}
+.add-review>form>.rating>.rate-stars>label.star-1:hover ~ span{
+  width: 20% !important;
+}
+.article>.title>.current-rating>.rate-stars>span,
+.add-review>form>.rating>.rate-stars>span{
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 30px;
+    background: url("../storage/images/stars.png") repeat-x 0 -30px;
+    -webkit-transition: -webkit-width 0.5s;
+    -moz-transition: -moz-width 0.5s;
+    -ms-transition: -ms-width 0.5s;
+    -o-transition: -o-width 0.5s;
+    transition: width 0.5s;
+}
+.add-review>form>.rating>.rate-stars>span,
+.article>.title>.current-rating>.rate-stars>span{
+    width: 90%;
+}
+.add-review>form>button{
+    width: 140px;
+    margin: 5px auto 5px 0;
+    border: #000 1px solid;
+    border-radius: 10px;
+    padding: 5px;
+    font-weight: 600;
+}
+/*404*/
+.not-fiend img{
+	position: fixed;
+	width: 100%;
+    height: 100%;
+}
