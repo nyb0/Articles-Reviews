@@ -51,16 +51,15 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'is_registered' => ['required', Rule::in([0, 1]) ],
-            'name' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'is_registered' => ['required', Rule::in([0, 1]) ],
+        'name' => ['required', 'string', 'max:100'],
+        'email' => ['required', 'string', 'email', 'max:100'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
         ],[
-            'name.required' => 'Please, enter your name.',
-            'email.required' => 'Please, provide your email.',
-            'email.email' => 'Provided email is invalid.',
-            'email.unique' => 'User with this email already exists.',
-            'password.confirmed' => 'Passwords does not match.'
+        'name.required' => 'Please, enter your name.',
+        'email.required' => 'Please, provide your email.',
+        'email.email' => 'Provided email is invalid.',
+        'password.confirmed' => 'Passwords does not match.'
         ]);
     }
 
@@ -70,16 +69,45 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \ARTICLES\User
      */
+
     protected function create(array $data)
     {
-        //MAKE_DIRECTORY_WITH_USER_NAME_FOR_UPLOADED_IMG
-        Storage::disk('public')->makeDirectory('/images/users/'. $data['name'] . '/comments');
+        if ( User::get()->where('email', $data['email'])->first() === null){
+            //MAKE_DIRECTORY_WITH_USER_NAME_FOR_UPLOADED_IMG
+            Storage::disk('public')->makeDirectory('/images/users/'. $data['name'] . '/comments');
 
-        return User::create([
-            'is_registered' => $data['is_registered'],
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+            return User::create([
+                'is_registered' => $data['is_registered'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+        }
+        else if ( User::get()->where('email', $data['email'])->first()->is_registered === 0 ){
+            $user = User::get()->where('email', $data['email'])->first();
+            $user->is_registered = 1;
+            $user->name = $data['name'];
+            $user->password = Hash::make($data['password']);
+
+            $user->save();
+            
+            //MAKE_DIRECTORY_WITH_USER_NAME_FOR_UPLOADED_IMG
+            Storage::disk('public')->makeDirectory('/images/users/'. $data['name'] . '/comments');
+    
+            return $user;
+        }
+
+        else{
+            //User with this email already exists. --- NOT FIXED((
+            $validator =  Validator::make($data, [
+            ['email' => 'unique'],
+            ],[
+            ['email.unique' => 'User with this email already exists.'],
+            ]);
+
+            if ($validator->fails()){
+                return back()->withErrors($validator)->withInput();
+            }
+        }
     }
 }
