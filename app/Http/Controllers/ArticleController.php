@@ -13,7 +13,7 @@ class ArticleController extends Controller
 
         $comments = $articles->comments->where('article_id', $articleId)->where('comment_message', '!=', null);
 
-        $avgGrade = $comments->where('article_id', $articleId)->avg('grade');
+        $avgGrade = $articles->comments->where('article_id', $articleId)->avg('grade');
         $avgGrade = round($avgGrade, 2);
         $comments->avgGrade = $avgGrade;
         
