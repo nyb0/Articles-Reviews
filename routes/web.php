@@ -11,4 +11,10 @@
 |
 */
 
-Route::get('/article-{article_id}', 'ArticleController@article');
+Route::get('/article-{article_id}', 'ArticleController@article')->name('article');
+
+Route::post('/add-comment', 'CommentController@addComment')->name('add-comment');
+
+Auth::routes();
+
+Route::get('/', 'MainController@index')->name('main');

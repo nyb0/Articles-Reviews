@@ -29,66 +29,29 @@
         <div class="header">
             <div class="menu">
                 <a href="/">ARTICLES</a>
-                <a href="#">REGISTRATION</a>
-                <a href="#">LOGIN</a>
+                @guest
+                    <a href="{{ route('login') }}">LOGIN</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}">REGISTRATION</a>
+                    @endif
+                @else
+                    <a href="#" role="button">{{ Auth::user()->name }}</a>
+                    
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                        LOGOUT
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                @endguest
             </div>
         </div>
 
-        <div class="feedback">
-            <h1>COMMENTS</h1>                               
-
-            <div class="add-review">
-                <div class="close-form">
-                    <img src="{{ asset('storage/images/to_close.png') }}" alt="Close">
-                </div>
-
-                <form method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="user-name">
-                        <label for="user-name">NAME:</label>
-                        <input type="text" name="user-name" id="user-name" placeholder="Enter your name">
-                    </div>
-                    
-                    <div class="email">
-                        <label for="email">EMAIL:</label>
-                        <input type="text" name="email" id="email" placeholder="Enter your email">
-                    </div>
-
-                    <div class="rating">
-                        <label>Give your grade:</label>
-                        <div class="rate-stars">
-                            <input type="radio" name="star" id="star-1" value="1">
-                            <label for="star-1" class="star-1">1</label>
-                            <input type="radio" name="star" id="star-2" value="2">
-                            <label for="star-2" class="star-2">2</label>
-                            <input type="radio" name="star" id="star-3" value="3">
-                            <label for="star-3" class="star-3">3</label>
-                            <input type="radio" name="star" id="star-4" value="4">
-                            <label for="star-4" class="star-4">4</label>
-                            <input type="radio" name="star" id="star-5" value="5">
-                            <label for="star-5" class="star-5">5</label>
-                            <span></span>
-                        </div>
-                    </div>
-
-                    <div class="review-message">    
-                        <label for="review-message">Feedback message:</label>
-                        <textarea name="review-message" id="review-message" placeholder="Leave your feedback"></textarea>
-                    </div>
-                        
-                    <div class="review-img">
-                        <label for="review-img"><span>Add image:</span>
-                            <img src="{{ asset('storage/images/upload_file.png') }}" alt="Choose FILE">
-                            <input type="file" accept="image/x-png,image/gif,image/jpeg" name="review-img" id="review-img">
-                        </label>
-                    </div>
-
-                    <button type="submit">Leave feedback</button>
-                </form>
-
-            </div>
-
-            
+        <div class="feedback">        
+            @yield('feedback')    
         </div>
 
         <div class="footer"></div>

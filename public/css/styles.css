@@ -103,6 +103,7 @@ body{
     background-color: #093d9f;
     color: aliceblue;
 }
+.article>a>h1,
 .article>h1{
     width: 100%;
     padding: 10px;
@@ -112,8 +113,8 @@ body{
     font-size: 2rem;
 }
 .article>p{
-    text-indent: 1.5em;
     text-align: justify;
+    white-space: pre-wrap;
     margin: 10px;
 }
 .article>.article-data{
@@ -140,16 +141,48 @@ body{
     padding: 6px 10px;
     border-bottom: #093d9f 2px solid;
     box-shadow: #687ca0 0px 5px 5px;
-    z-index: 1;
+    z-index: 2;
 }
-.feedback>.feedback-box{
+.feedback>.comments{
     position: absolute;
+    width: 100%;
+    box-sizing: border-box;
     top: 34px;
-    margin: 10px;
+}
+.feedback>.comments>div{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 5px;
+}
+.feedback>.comments>div>h1{
+    color: #fff;
+    text-shadow: #000 1px 1px 3px;
+    background-color: #00000060;
+    padding: 2px 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: underline;
+}
+.feedback>.comments>div>img{
+    width: 100px;
+    height: 100px;
+    margin: 5px auto;
+}
+.feedback>.comments>div>p{
+    text-indent: 1.5em;
+    text-align: justify;
+    font-style: italic;
+    margin-left: 40px;
+}
+.feedback>.comments>div>p.date-time{
+    margin-left: auto;
+    font-style: normal;
+    font-size: .8rem;
+    margin-top: 5px;
 }
 /*ADD_REVIEW_FORM*/
 .feedback>.add-review{
-    grid-area: add-review;
     position: sticky;
     display: none;
     flex-direction: column;
@@ -165,27 +198,54 @@ body{
     z-index: 1;
 }
 .add-review>.close-form{
-    margin: 10px 10px 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 10px 10px 0 10px;
+}
+.content>.auth{
+    box-sizing: border-box;
+    border: #424242 1px solid;
+    border-radius: 20px;
+    box-shadow: #093d9f 0 3px 5px;
+    background-color: #687ca0;
+}
+.content>.auth>h1,
+.add-review>.close-form>p{
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #093d9f;
+    text-shadow: #000 -1px 1px 2px;
+
 }
 .add-review>.close-form>img{
     width: 40px;
     height: 40px;
 }
+.content>.auth>form,
 .add-review>form{
     display: flex;
     flex-direction: column;
     padding: 5px 10px;
 }
+.content>.auth>form>div,
 .add-review>form>div{
     display: flex;
-    margin: 5px 0;
+    position: relative;
+    margin: 15px 0;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 }
-.add-review>form>div.review-message{
+.add-review>form>div.comment-message{
     flex-direction: column;
 }
-.add-review>form>div>label{
+.content>.auth>form>div>label,
+.add-review>form>div>label,
+.add-review>form>div>span{
     width: 20%;
     min-width: 130px;
     box-sizing: border-box;
@@ -196,7 +256,11 @@ body{
     padding: 7px 5px;
     text-shadow: #fff -1px 1px 2px;
 }
+.content>.auth>form>div>input[type="text"],
+.content>.auth>form>div>input[type="email"],
+.content>.auth>form>div>input[type="password"],
 .add-review>form>div>input[type="text"],
+.add-review>form>div>input[type="email"],
 .add-review>form>div>textarea{
     border: none;
     border-radius: 5px;
@@ -204,7 +268,11 @@ body{
     box-sizing: border-box;
     font-size: 1.2rem;
 }
-.add-review>form>div>input[type="text"]{
+.content>.auth>form>div>input[type="text"],
+.content>.auth>form>div>input[type="email"],
+.content>.auth>form>div>input[type="password"],
+.add-review>form>div>input[type="text"],
+.add-review>form>div>input[type="email"]{
     width: 70%;
     height: 35px;
 }
@@ -212,19 +280,33 @@ body{
     width: 100%;
     height: 150px;
 }
-.add-review>form>div.review-img>label{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 5px;
+.add-review>form>div.image>span{
+    margin-right: auto;
 }
-.add-review>form>div.review-img>label>img{
+.add-review>form>div.image>label{
+    min-width: 30px;
+    width: 50px;
+    margin: 0;
+    padding: 0;
+}
+.add-review>form>div.image>label>img{
     width: 50px;
     height: 50px;
     cursor: pointer;
 }
-.add-review>form>div.review-img>label>input[type="file"]{
+.add-review>form>div.image>label>input[type="file"]{
     display: none;
+}
+form>div span[role="alert"]{
+    display: block;
+    position: absolute;
+    bottom: -30px;
+    left: 30%;
+    color: #dc3545;
+    font-size: 1.1rem;
+    text-shadow: #929292 -1px 1px 2px;
+    white-space: nowrap;
+    font-weight: 600;
 }
 /*STARS_RATING*/
 .article>.title>.current-rating>.rate-stars,
@@ -237,20 +319,20 @@ body{
     position: absolute;
     opacity: 0;
 }
-.add-review>form>.rating>.rate-stars>input[type="radio"]#star-5:checked ~ span{
-  width: 100%;
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-5:checked ~ span.grade-stars{
+  width: 100% !important;
 }
-.add-review>form>.rating>.rate-stars>input[type="radio"]#star-4:checked ~ span{
-  width: 80%;
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-4:checked ~ span.grade-stars{
+  width: 80% !important;
 }
-.add-review>form>.rating>.rate-stars>input[type="radio"]#star-3:checked ~ span{
-  width: 60%;
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-3:checked ~ span.grade-stars{
+  width: 60% !important;
 }
-.add-review>form>.rating>.rate-stars>input[type="radio"]#star-2:checked ~ span{
-  width: 40%;
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-2:checked ~ span.grade-stars{
+  width: 40% !important;
 }
-.add-review>form>.rating>.rate-stars>input[type="radio"]#star-1:checked ~ span{
-  width: 20%;
+.add-review>form>.rating>.rate-stars>input[type="radio"]#star-1:checked ~ span.grade-stars{
+  width: 20% !important;
 }
 .add-review>form>.rating>.rate-stars>label{
     display: block;
@@ -265,23 +347,23 @@ body{
     background: transparent!important;
     cursor: pointer;
 }
-.add-review>form>.rating>.rate-stars>label.star-5:hover ~ span{
+.add-review>form>.rating>.rate-stars>label.star-5:hover ~ span.grade-stars{
   width: 100% !important;
 }
-.add-review>form>.rating>.rate-stars>label.star-4:hover ~ span{
+.add-review>form>.rating>.rate-stars>label.star-4:hover ~ span.grade-stars{
   width: 80% !important;
 }
-.add-review>form>.rating>.rate-stars>label.star-3:hover ~ span{
+.add-review>form>.rating>.rate-stars>label.star-3:hover ~ span.grade-stars{
   width: 60% !important;
 }
-.add-review>form>.rating>.rate-stars>label.star-2:hover ~ span{
+.add-review>form>.rating>.rate-stars>label.star-2:hover ~ span.grade-stars{
   width: 40% !important;
 }
-.add-review>form>.rating>.rate-stars>label.star-1:hover ~ span{
+.add-review>form>.rating>.rate-stars>label.star-1:hover ~ span.grade-stars{
   width: 20% !important;
 }
-.article>.title>.current-rating>.rate-stars>span,
-.add-review>form>.rating>.rate-stars>span{
+.article>.title>.current-rating>.rate-stars>span.grade-stars,
+.add-review>form>.rating>.rate-stars>span.grade-stars{
     display: block;
     position: relative;
     top: 0;
@@ -293,18 +375,30 @@ body{
     -ms-transition: -ms-width 0.5s;
     -o-transition: -o-width 0.5s;
     transition: width 0.5s;
+    width: 0;
 }
-.add-review>form>.rating>.rate-stars>span,
-.article>.title>.current-rating>.rate-stars>span{
-    width: 90%;
-}
+.content>.auth>form>button,
 .add-review>form>button{
     width: 140px;
-    margin: 5px auto 5px 0;
     border: #000 1px solid;
     border-radius: 10px;
     padding: 5px;
     font-weight: 600;
+}
+.content>.auth>form>button{
+    margin: 5px 0 5px auto;
+}
+.add-review>form>button{
+    margin: 5px auto 5px 0;
+}
+.content>.auth>form>a.forgot{
+    text-decoration: none;
+    text-align: end;
+    margin: 5px;
+    color: #fff;
+}
+.content>.auth>form>a.forgot:hover{
+    text-decoration: underline;
 }
 /*404*/
 .not-fiend img{

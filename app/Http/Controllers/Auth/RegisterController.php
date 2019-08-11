@@ -6,7 +6,9 @@ use ARTICLES\User;
 use ARTICLES\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -49,9 +51,16 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'is_registered' => ['required', Rule::in([0, 1]) ],
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ],[
+            'name.required' => 'Please, enter your name.',
+            'email.required' => 'Please, provide your email.',
+            'email.email' => 'Provided email is invalid.',
+            'email.unique' => 'User with this email already exists.',
+            'password.confirmed' => 'Passwords does not match.'
         ]);
     }
 
@@ -63,7 +72,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        //MAKE_DIRECTORY_WITH_USER_NAME_FOR_UPLOADED_IMG
+        Storage::disk('public')->makeDirectory('/images/users/'. $data['name'] . '/comments');
+
         return User::create([
+            'is_registered' => $data['is_registered'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),

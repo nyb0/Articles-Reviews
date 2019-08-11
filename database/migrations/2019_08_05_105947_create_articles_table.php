@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_general_ci';
             $table->bigIncrements('id');
-            $table->UnsignedBigInteger('user_id')->nullable();
+            $table->UnsignedBigInteger('user_id');
             $table->char('headline', 100);
             $table->text('article_body');
             $table->timestamps();

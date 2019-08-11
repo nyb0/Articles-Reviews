@@ -13,6 +13,6 @@ class Article extends Model
     }
 
     public function comments(){
-        return $this->morphMany('\ARTICLES\Comment', 'article_id', 'id');
+        return $this->hasMany('\ARTICLES\Comment', 'article_id', 'id');
     }
 }

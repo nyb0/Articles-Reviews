@@ -17,11 +17,11 @@ class CreateCommentsTable extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_general_ci';
             $table->bigIncrements('id');
-            $table->UnsignedBigInteger('article_id')->nullable();
-            $table->UnsignedBigInteger('user_id')->nullable();
-            $table->UnsignedInteger('grade')->nullable();
-            $table->text('comment')->nullable();
-            $table->string('image');
+            $table->UnsignedBigInteger('article_id');
+            $table->UnsignedBigInteger('user_id');
+            $table->UnsignedInteger('grade');
+            $table->text('comment_message', 500)->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
 
